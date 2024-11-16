@@ -1,11 +1,6 @@
 // src/modules/media/dto/create-media.dto.ts
-
-import { IsString, IsOptional, IsEnum, IsInt } from 'class-validator';
-
-export enum MediaType {
-  IMAGEN = 'Imagen',
-  VIDEO = 'Video',
-}
+import { IsString, IsOptional, IsEnum, IsInt, Min } from 'class-validator';
+import { MediaType } from '../../../enums/media-type.enum';
 
 export class CreateMediaDto {
   @IsOptional()
@@ -16,12 +11,20 @@ export class CreateMediaDto {
   @IsString()
   descripcion?: string;
 
-  @IsEnum(MediaType)
-  tipo: MediaType;
+  @IsOptional()
+  @IsEnum(MediaType, { message: `El tipo debe ser uno de: ${Object.values(MediaType).join(', ')}` })
+  tipo?: MediaType;
 
   @IsString()
   ruta: string;
 
+  @IsOptional()
   @IsInt()
-  orden: number;
+  @Min(0, { message: 'El orden debe ser un entero positivo.' })
+  orden?: number;
+
+  @IsOptional()
+  @IsInt({ message: 'El producto_id debe ser un número entero.' })
+  productoId?: number;
+  
 }

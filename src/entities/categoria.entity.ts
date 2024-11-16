@@ -1,7 +1,7 @@
 // src/entities/categoria.entity.ts
 
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
-import { Inventario } from './inventario.entity';
+import { Producto } from './producto.entity';
 
 @Entity('categoria')
 export class Categoria {
@@ -11,6 +11,6 @@ export class Categoria {
   @Column({ unique: true })
   nombre: string;
 
-  @OneToMany(() => Inventario, (inventario) => inventario.categoria)
-  inventarios: Inventario[];
+  @OneToMany(() => Producto, (producto) => producto.categoria)
+  productos: Producto[];
 }

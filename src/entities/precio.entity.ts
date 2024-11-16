@@ -1,10 +1,19 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn } from 'typeorm';
-import { Inventario } from './inventario.entity';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn, Check, Unique } from 'typeorm';
+import { Producto} from './producto.entity';
 
-@Entity('precio')
+@Entity('Precio')
+@Unique(['producto', 'fecha_inicio', 'fecha_fin'])
+@Check(`"fecha_inicio" < "fecha_fin"`)
 export class Precio {
   @PrimaryGeneratedColumn()
   id: number;
+
+  @ManyToOne(() => Producto, (producto) => producto.precio, {
+    nullable: false,
+    onDelete: 'CASCADE',
+  })
+  @JoinColumn({ name: 'producto_id' })
+  producto: Producto;
 
   @Column({ type: 'decimal', precision: 10, scale: 2 })
   precio: number;
@@ -12,10 +21,8 @@ export class Precio {
   @Column({ type: 'date' })
   fecha_inicio: Date;
 
-  @Column({ type: 'date', nullable: true })
-  fecha_fin: Date | null;
+  @Column({ type: 'date' })
+  fecha_fin: Date;
 
-  @ManyToOne(() => Inventario, (inventario) => inventario.precios, { onDelete: 'CASCADE' })
-  @JoinColumn({ name: 'mueble_id' })
-  inventario: Inventario;
+
 }

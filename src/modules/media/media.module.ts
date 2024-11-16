@@ -2,14 +2,15 @@
 
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Media } from '../../entities/media.entity';
-import { Inventario } from '../../entities/inventario.entity';
 import { MediaService } from './media.service';
 import { MediaController } from './media.controller';
+import { Media } from '../../entities/media.entity';
+
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Media, Inventario])],
+  imports: [TypeOrmModule.forFeature([Media])],
   providers: [MediaService],
   controllers: [MediaController],
+  exports: [MediaService]  // Exporta MediaService para que otros módulos puedan usarlo
 })
 export class MediaModule {}

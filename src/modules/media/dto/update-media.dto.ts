@@ -1,26 +1,11 @@
 // src/modules/media/dto/update-media.dto.ts
 
-import { IsString, IsOptional, IsEnum, IsInt, Min } from 'class-validator';
+import { PartialType } from '@nestjs/mapped-types';
+import { CreateMediaDto } from './create-media.dto';
+import { IsOptional, IsInt } from 'class-validator';
 
-export class UpdateMediaDto {
-  @IsOptional()
-  @IsString()
-  titulo?: string;
-
-  @IsOptional()
-  @IsString()
-  descripcion?: string;
-
-  @IsOptional()
-  @IsEnum(['Imagen', 'Video'])
-  tipo?: 'Imagen' | 'Video';
-
-  @IsOptional()
-  @IsString()
-  ruta?: string;
-
+export class UpdateMediaDto extends PartialType(CreateMediaDto) {
   @IsOptional()
   @IsInt()
-  @Min(0)
-  orden?: number;
+  id?: number; // Permite identificar el medio a actualizar
 }

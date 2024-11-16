@@ -9,9 +9,9 @@ import { UpdatePrecioDto } from './dto/update-precio.dto';
 export class PrecioController {
   constructor(private readonly precioService: PrecioService) {}
 
-  @Post(':inventarioId')
-  async create(@Param('inventarioId') inventarioId: number, @Body() createPrecioDto: CreatePrecioDto) {
-    return this.precioService.create(inventarioId, createPrecioDto);
+  @Post(':productoId')
+  async create(@Param('productoId') productoId: number, @Body() createPrecioDto: CreatePrecioDto) {
+    return this.precioService.create(productoId, createPrecioDto);
   }
 
   @Get()

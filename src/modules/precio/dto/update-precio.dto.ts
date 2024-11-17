@@ -1,18 +1,25 @@
 // src/modules/precio/dto/update-precio.dto.ts
 
-import { IsNumber, IsDateString, IsOptional, Min } from 'class-validator';
+
+import { IsOptional, IsNumber, IsDateString, IsInt } from 'class-validator';
 
 export class UpdatePrecioDto {
   @IsOptional()
-  @IsNumber()
-  @Min(0)
+  @IsInt()
+  id?: number; // Permite identificar el precio a actualizar
+
+  @IsOptional()
+  @IsNumber({ maxDecimalPlaces: 2 }, { message: 'El precio debe ser un número válido con hasta 2 decimales' })
   precio?: number;
 
   @IsOptional()
-  @IsDateString()
+  @IsDateString({}, { message: 'La fecha de inicio debe ser una fecha válida' })
   fecha_inicio?: string;
 
   @IsOptional()
-  @IsDateString()
-  fecha_fin?: string;
+  @IsDateString({}, { message: 'La fecha de fin debe ser una fecha válida' })
+  fecha_fin?: string | null;
+
+
+
 }

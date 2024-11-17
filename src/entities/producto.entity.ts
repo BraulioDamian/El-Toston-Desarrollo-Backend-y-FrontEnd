@@ -1,19 +1,22 @@
-// src/entities/inventario.entity.ts
+// src/entities/producto.entity.ts
 
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany, JoinColumn } from 'typeorm';
 import { Categoria } from './categoria.entity';
 import { Precio } from './precio.entity';
 import { Media } from './media.entity';
 
-@Entity('inventario')
-export class Inventario {
+@Entity('Producto')
+export class Producto {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({ length: 100 })
   nombre: string;
 
-  @ManyToOne(() => Categoria, (categoria) => categoria.inventarios, { nullable: true, onDelete: 'SET NULL' })
+  @ManyToOne(() => Categoria, (categoria) => categoria.productos, {
+    nullable: true,
+    onDelete: 'SET NULL',
+  })
   @JoinColumn({ name: 'categoria_id' })
   categoria: Categoria;
 
@@ -23,9 +26,14 @@ export class Inventario {
   @Column({ type: 'int', unsigned: true, default: 0 })
   stock: number;
 
-  @OneToMany(() => Precio, (precio) => precio.inventario, { cascade: true })
-  precios: Precio[];
-
-  @OneToMany(() => Media, (media) => media.inventario, { cascade: true })
+  // Relación inversa con Media
+  @OneToMany(() => Media, (media) => media.producto)
   media: Media[];
+  
+  @OneToMany(() => Precio, (precio) => precio.producto, {
+    eager: true,
+    onDelete: 'CASCADE', // Asegura que al eliminar producto, se eliminen los Precio asociados
+  })
+  precio: Precio[];
+  
 }

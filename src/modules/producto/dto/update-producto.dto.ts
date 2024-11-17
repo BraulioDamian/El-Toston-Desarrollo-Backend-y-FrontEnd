@@ -1,11 +1,10 @@
-// src/modules/inventario/dto/update-inventario.dto.ts
-
+// src/modules/producto/dto/update-producto.dto.ts
 import { IsOptional, IsString, IsInt, IsArray, ValidateNested, Min } from 'class-validator';
 import { Type } from 'class-transformer';
-import { CreatePrecioDto } from '../../precio/dto/create-precio.dto';
-import { CreateMediaDto } from '../../media/dto/create-media.dto';
+import { UpdateMediaDto } from '../../media/dto/update-media.dto';
+import { UpdatePrecioDto } from '../../precio/dto/update-precio.dto';
 
-export class UpdateInventarioDto {
+export class UpdateProductoDto {
   @IsOptional()
   @IsString()
   nombre?: string;
@@ -23,17 +22,18 @@ export class UpdateInventarioDto {
   @IsOptional()
   @IsInt()
   categoria_id?: number;
-  
-  // Nuevos campos para precios y media (imágenes/videos)
-  @IsOptional()
-  @IsArray()
-  @ValidateNested({ each: true })
-  @Type(() => CreatePrecioDto)
-  precios?: CreatePrecioDto[];
 
+  // Nuevos campos para precio
   @IsOptional()
   @IsArray()
   @ValidateNested({ each: true })
-  @Type(() => CreateMediaDto)
-  media?: CreateMediaDto[];
+  @Type(() => UpdatePrecioDto)
+  precio?: UpdatePrecioDto[];
+
+  // Actualización de medios
+  @IsOptional()
+  @IsArray()
+  @ValidateNested({ each: true })
+  @Type(() => UpdateMediaDto)
+  media?: UpdateMediaDto[] | UpdateMediaDto; // Puede ser un solo medio o varios
 }

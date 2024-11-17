@@ -1,29 +1,37 @@
 // src/entities/media.entity.ts
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from 'typeorm';
+import { Producto } from './producto.entity';
+import { MediaType } from '../enums/media-type.enum'; // Enum separado
 
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn } from 'typeorm';
-import { Inventario } from './inventario.entity';
-
-@Entity('media')
+@Entity('Media')
 export class Media {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ nullable: true })
-  titulo: string;
+  @Column({ type: 'varchar', length: 100, nullable: true })
+  titulo?: string;
 
-  @Column({ nullable: true })
-  descripcion: string;
+  @Column({ type: 'varchar', length: 255, nullable: true })
+  descripcion?: string;
 
-  @Column({ type: 'enum', enum: ['Imagen', 'Video'], default: 'Imagen' })
-  tipo: 'Imagen' | 'Video';
+  @Column({
+    type: 'enum',
+    enum: MediaType, // Usa el enum reutilizable
+    default: MediaType.IMAGEN,
+  })
+  tipo: MediaType;
 
-  @Column()
-  ruta: string; // Aquí la ruta será relativa
+  @Column({ type: 'varchar', length: 255 })
+  ruta: string;
 
   @Column({ type: 'int', unsigned: true, default: 0 })
   orden: number;
 
-  @ManyToOne(() => Inventario, (inventario) => inventario.media, { onDelete: 'CASCADE' })
-  @JoinColumn({ name: 'inventario_id' })
-  inventario: Inventario;
+  // Relación con Producto
+  @ManyToOne(() => Producto, (producto) => producto.media, {
+    nullable: true,
+    onDelete: 'CASCADE',
+  })
+  @JoinColumn({ name: 'producto_id' }) // Nombre de la clave foránea
+  producto: Producto;
 }

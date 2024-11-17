@@ -1,14 +1,13 @@
-// src/modules/inventario/dto/create-inventario.dto.ts
+// src/modules/producto/dto/create-producto.dto.ts
 import { IsNotEmpty, IsString, IsOptional, IsInt, ValidateNested, IsArray, IsNumber } from 'class-validator';
 import { Type } from 'class-transformer';
 import { CreatePrecioDto } from '../../precio/dto/create-precio.dto';
 import { CreateMediaDto } from '../../media/dto/create-media.dto';
 
 
-
-export class CreateInventarioDto {
+export class CreateProductoDto {
+  @IsNotEmpty({ message: 'El nombre es obligatorio' })
   @IsString()
-  @IsNotEmpty()
   nombre: string;
 
   @IsInt()
@@ -26,10 +25,11 @@ export class CreateInventarioDto {
   @IsArray()
   @ValidateNested({ each: true })
   @Type(() => CreatePrecioDto)
-  precios: CreatePrecioDto[];
+  precio: CreatePrecioDto[];
 
+  @IsOptional()
   @IsArray()
   @ValidateNested({ each: true })
   @Type(() => CreateMediaDto)
-  media: CreateMediaDto[];
+  media?: CreateMediaDto[] | CreateMediaDto; // Acepta un solo medio o varios
 }

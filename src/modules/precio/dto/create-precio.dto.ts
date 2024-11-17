@@ -1,13 +1,18 @@
-import { IsDateString, IsNumber, IsOptional } from 'class-validator';
+// src/modules/precio/dto/create-precio.dto.ts
+
+import { IsNotEmpty, IsNumber, IsDate, IsOptional, IsDateString } from 'class-validator';
+import { Type } from 'class-transformer';
 
 export class CreatePrecioDto {
-  @IsNumber()
+  @IsNotEmpty({ message: 'El precio es obligatorio' })
+  @IsNumber({ maxDecimalPlaces: 2 }, { message: 'El precio debe ser un número válido con hasta 2 decimales' })
   precio: number;
 
-  @IsDateString()
-  fecha_inicio: Date;
+  @IsNotEmpty({ message: 'La fecha de inicio es obligatoria' })
+  @IsDateString({}, { message: 'La fecha de inicio debe ser una fecha válida' })
+  fecha_inicio: string;
 
-  @IsDateString()
   @IsOptional()
-  fecha_fin?: Date;
+  @IsDateString({}, { message: 'La fecha de fin debe ser una fecha válida' })
+  fecha_fin?: string | null;
 }

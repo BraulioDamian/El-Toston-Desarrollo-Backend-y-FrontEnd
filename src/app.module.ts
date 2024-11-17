@@ -1,15 +1,11 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 
 import { UsuariosModule } from './modules/users/usuarios.module';
 import { AuthModule } from './auth/auth.module';
-
-
-
 import { CategoriaModule } from './modules/categoria/categoria.module';
-
-import { InventarioModule } from './modules/inventario/inventario.module';
+import { ProductoModule } from './modules/producto/producto.module';
 import { PrecioModule } from './modules/precio/precio.module';
 import { MediaModule } from './modules/media/media.module';
 
@@ -29,7 +25,7 @@ import { MediaModule } from './modules/media/media.module';
         password: configService.get<string>('DB_PASSWORD'),
         database: configService.get<string>('DB_NAME'),
         entities: [__dirname + '/**/*.entity{.ts,.js}'],
-        synchronize: false, // Cambia a true solo en desarrollo
+        synchronize: false, // Cambiar a true solo en desarrollo
         logging: true,
       }),
       inject: [ConfigService],
@@ -37,9 +33,10 @@ import { MediaModule } from './modules/media/media.module';
     UsuariosModule,
     AuthModule,
     CategoriaModule,
-    InventarioModule,
+    ProductoModule,
     PrecioModule,
     MediaModule,
   ],
 })
-export class AppModule {}
+export class AppModule {
+}

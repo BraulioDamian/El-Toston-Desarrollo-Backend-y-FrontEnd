@@ -1,13 +1,13 @@
 // src/modules/producto/dto/create-producto.dto.ts
-import { IsNotEmpty, IsString, IsOptional, IsInt, ValidateNested, IsArray, IsNumber } from 'class-validator';
+import { IsNotEmpty, IsString, IsOptional, IsInt, ValidateNested, IsArray, IsNumber, ArrayMinSize } from 'class-validator';
 import { Type } from 'class-transformer';
 import { CreatePrecioDto } from '../../precio/dto/create-precio.dto';
 import { CreateMediaDto } from '../../media/dto/create-media.dto';
 
 
 export class CreateProductoDto {
-  @IsNotEmpty({ message: 'El nombre es obligatorio' })
-  @IsString()
+
+  @IsString({ message: 'El nombre del producto es obligatorio.' })
   nombre: string;
 
   @IsInt()
@@ -27,9 +27,11 @@ export class CreateProductoDto {
   @Type(() => CreatePrecioDto)
   precio: CreatePrecioDto[];
 
-  @IsOptional()
-  @IsArray()
-  @ValidateNested({ each: true })
-  @Type(() => CreateMediaDto)
-  media?: CreateMediaDto[] | CreateMediaDto; // Acepta un solo medio o varios
+
+ @IsArray({ message: 'El campo media debe ser un array.' })
+  @ValidateNested({ each: true, message: 'Cada elemento de media debe ser válido.' })
+  @Type(() => CreateMediaDto) // Transforma cada elemento en CreateMediaDto
+  @ArrayMinSize(1, { message: 'Debe proporcionar al menos una imagen para el producto.' }) // Validación obligatoria
+  media: CreateMediaDto[];
+  
 }

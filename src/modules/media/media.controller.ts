@@ -36,12 +36,12 @@ export class MediaController {
     if (!file) {
       return res.status(400).json({ message: 'Archivo no proporcionado' });
     }
-
+  
     const newMedia = await this.mediaService.create({
       ...createMediaDto,
       ruta: file.path,
     });
-
+  
     return res.status(201).json({
       message: 'Archivo creado exitosamente',
       media: newMedia,

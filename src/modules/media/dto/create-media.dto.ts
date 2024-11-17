@@ -24,7 +24,7 @@ export class CreateMediaDto {
   orden?: number;
 
   @IsOptional()
-  @IsInt({ message: 'El producto_id debe ser un número entero.' })
+  @IsInt({ message: 'El productoId debe ser un número entero.' })
   productoId?: number;
   
 }

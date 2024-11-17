@@ -8,14 +8,14 @@ import { Producto } from '../../entities/producto.entity';
 import { Categoria } from '../../entities/categoria.entity';
 import { Precio } from '../../entities/precio.entity';
 import { Media } from '../../entities/media.entity';
-import { MediaModule } from '../media/media.module';  // Importa el MediaModule
+import { MediaService } from '../media/media.service';
+
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Producto, Categoria, Precio, Media]),
-    MediaModule,  // Importa MediaModule aquí
+    TypeOrmModule.forFeature([Producto, Categoria, Precio, Media]),  
   ],
+  providers: [ProductoService, MediaService],
   controllers: [ProductoController],
-  providers: [ProductoService,],
 })
 export class ProductoModule {}
